@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../src/index.php';
+require_once __DIR__ . '/../src/functions.php';
 
 function assertEqual($expected, $actual, $testName) {
     if ($expected === $actual) {
