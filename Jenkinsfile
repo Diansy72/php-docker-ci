@@ -4,25 +4,49 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/Diansy72/php-simple-ci.git'
+                echo 'Repo sudah ter-clone oleh SCM.'
             }
         }
 
-        stage('Run Tests') {
+        stage('Install Dependencies') {
             steps {
-                bat 'run_tests.bat'
+                echo 'Tidak ada dependency untuk di-install.'
+            }
+        }
+
+        stage('Run Unit Test') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'php tests/index_test.php'
+                    } else {
+                        bat 'run_tests.bat'
+                    }
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t php-simple-app .'
+                script {
+                    if (isUnix()) {
+                        sh 'docker build -t php-simple-app .'
+                    } else {
+                        bat 'docker build -t php-simple-app .'
+                    }
+                }
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Deploy Container') {
             steps {
-                bat 'docker run -d -p 8080:8080 php-simple-app'
+                script {
+                    if (isUnix()) {
+                        sh 'docker run -d -p 8080:8080 php-simple-app'
+                    } else {
+                        bat 'docker run -d -p 8080:8080 php-simple-app'
+                    }
+                }
             }
         }
     }
