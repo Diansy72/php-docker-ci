@@ -42,9 +42,9 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'docker run -d -p 8080:8080 php-simple-app'
+                        sh 'docker run -d -p 9090:9090 php-simple-app'
                     } else {
-                        bat 'docker run -d -p 8080:8080 php-simple-app'
+                        bat 'docker run -d -p 9090:9090 php-simple-app'
                     }
                 }
             }
